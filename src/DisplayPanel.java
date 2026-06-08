@@ -62,21 +62,21 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
 
     //AI helped produce - Google
     //Creates a hitbox for the target so the program knows when the player has hit the target
-    public void targetHitboxHit(MouseEvent e, Graphics g) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
-            Point clickLocation = e.getPoint();
-            int x = clickLocation.x;
-            int y = clickLocation.y;
-            if ((x > ballSpawnX - 50) && (x < ballSpawnX + 50)) {
-                if ((y > ballSpawnY -50) && (y < ballSpawnY + 50)) {
-                    score++;
-                    g.setColor(java.awt.Color.RED);
-                    g.fillOval(ballSpawnX, ballSpawnY, 50, 50);
-                    repaint();
-                }
-            }
-        }
-    }
+//    public void targetHitboxHit(MouseEvent e, Graphics g) {
+//        if (e.getButton() == MouseEvent.BUTTON1) {
+//            Point clickLocation = e.getPoint();
+//            int x = clickLocation.x;
+//            int y = clickLocation.y;
+//            if ((x > ballSpawnX - 50) && (x < ballSpawnX + 50)) {
+//                if ((y > ballSpawnY -50) && (y < ballSpawnY + 50)) {
+//                    score++;
+//                    g.setColor(java.awt.Color.RED);
+//                    g.fillOval(ballSpawnX, ballSpawnY, 50, 50);
+//                    repaint();
+//                }
+//            }
+//        }
+//    }
 
     @Override
     public void mouseEntered(MouseEvent e) {
