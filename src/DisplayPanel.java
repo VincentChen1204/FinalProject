@@ -22,11 +22,6 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        try {
-            playButton = ImageIO.read(new File("Play button.jpg"));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
         //Randomizes the coordinates and placement of the target ball
         ballSpawnX = (int) (Math.random() * 500) + 50;
         ballSpawnY = (int) (Math.random() * 400) + 50;
