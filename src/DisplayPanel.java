@@ -22,9 +22,10 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        //Randomizes the coordinates and placement of the target ball
+        //Randomizes the coordinates and placement of the target
         ballSpawnX = (int) (Math.random() * 500) + 50;
         ballSpawnY = (int) (Math.random() * 400) + 50;
+
         addMouseListener(this);
         addKeyListener(this);
         setFocusable(true);
@@ -35,6 +36,9 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
         if (background != null) {
             g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
         }
+        //Shows the score or number of times the user has hit the target
+        g.setColor(Color.BLACK);
+        g.drawString("Score: " + score, 25, 25);
         //AI produced - Google
         //Draws a red circle on the display panel
         g.setColor(java.awt.Color.RED);
@@ -62,21 +66,21 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
 
     //AI helped produce - Google
     //Creates a hitbox for the target so the program knows when the player has hit the target
-//    public void targetHitboxHit(MouseEvent e, Graphics g) {
-//        if (e.getButton() == MouseEvent.BUTTON1) {
-//            Point clickLocation = e.getPoint();
-//            int x = clickLocation.x;
-//            int y = clickLocation.y;
-//            if ((x > ballSpawnX - 50) && (x < ballSpawnX + 50)) {
-//                if ((y > ballSpawnY -50) && (y < ballSpawnY + 50)) {
-//                    score++;
-//                    g.setColor(java.awt.Color.RED);
-//                    g.fillOval(ballSpawnX, ballSpawnY, 50, 50);
-//                    repaint();
-//                }
-//            }
-//        }
-//    }
+    public void targetHitboxHit(MouseEvent e, Graphics g) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            Point clickLocation = e.getPoint();
+            int x = clickLocation.x;
+            int y = clickLocation.y;
+            if ((x > ballSpawnX - 50) && (x < ballSpawnX + 50)) {
+                if ((y > ballSpawnY -50) && (y < ballSpawnY + 50)) {
+                    score++;
+                    g.setColor(java.awt.Color.RED);
+                    g.fillOval(ballSpawnX, ballSpawnY, 50, 50);
+                    repaint();
+                }
+            }
+        }
+    }
 
     @Override
     public void mouseEntered(MouseEvent e) {
