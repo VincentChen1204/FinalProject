@@ -1,5 +1,5 @@
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -11,21 +11,23 @@ import java.io.IOException;
 
 public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
     private int score;
+    private boolean gameStarted;
     private BufferedImage background;
-    private BufferedImage playButton;
-    private int ballSpawnX;
-    private int ballSpawnY;
+    private int targetSpawnX;
+    private int targetSpawnY;
+    private int targetRadius = 50;
     public DisplayPanel() {
         score = 0;
+
         try {
             background = ImageIO.read(new File("Background.webp"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        //Randomizes the coordinates and placement of the target
-        ballSpawnX = (int) (Math.random() * 500) + 50;
-        ballSpawnY = (int) (Math.random() * 400) + 50;
 
+        //Randomizes the coordinates and placement of the target ball
+        targetSpawnX = (int) (Math.random() * 400) + 50;
+        targetSpawnY = (int) (Math.random() * 400) + 50;
         addMouseListener(this);
         addKeyListener(this);
         setFocusable(true);
@@ -33,20 +35,76 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        //Draws in the background of the display panel
         if (background != null) {
             g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
         }
-        //Shows the score or number of times the user has hit the target
+
+        //Draws the play button at the start to begin user interaction
+        int buttonWidth = 200;
+        int buttonHeight = 100;
+
+        int buttonX = (getWidth() - buttonWidth) / 2;
+        int buttonY = (getHeight() - buttonHeight) / 2;
+
+        g.setColor(Color.RED);
+        g.drawRect(buttonX, buttonY, buttonWidth, buttonHeight);
+        g.drawString("PLAY", buttonX + 85, buttonY + 55);
+
+        //Draws the title of the program (Aim Trainer)
         g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.BOLD, 40));
+        g.drawString("AIM TRAINER!", 275, 170);
+
+        //Keeps track of the score or number of targets hit by the user
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.BOLD, 15));
         g.drawString("Score: " + score, 25, 25);
-        //AI produced - Google
-        //Draws a red circle on the display panel
-        g.setColor(java.awt.Color.RED);
-        g.fillOval(ballSpawnX, ballSpawnY, 50, 50);
+
+        //Ai provided ".fillOval()" - Google
+        //Draws a red circle onto the display panel as a target
+        g.setColor(Color.RED);
+        g.fillOval(targetSpawnX, targetSpawnY, targetRadius, targetRadius);
+    }
+
+    //Determines whether the user clicked within the area of the target or not
+    public void targetHitbox(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            Point clickLocation = e.getPoint();
+            int x = clickLocation.x;
+            int y = clickLocation.y;
+            if (x > targetSpawnX) {
+                x -= targetSpawnX;
+            } else {
+                x = targetSpawnX - x;
+            }
+            if (y > targetSpawnY) {
+                y -= targetSpawnY;
+            } else {
+                y = targetSpawnY - y;
+            }
+            if (((x * x) + (y * y)) <= (targetRadius * targetRadius)) {
+                score++;
+                respawnTarget();
+                repaint();
+            }
+        }
+    }
+
+    //After the user successfully hits the target, it will respawn again at a random point
+    private void respawnTarget() {
+        targetSpawnX = (int) ((Math.random() * 700) + 50);
+        targetSpawnY = (int) ((Math.random() * 467) + 33);
     }
 
     public void mouseClicked(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            Point clickLocation = e.getPoint();
+            int x = clickLocation.x;
+            int y = clickLocation.y;
 
+        }
     }
 
     @Override
@@ -56,30 +114,7 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
-            Point clickLocation = e.getPoint();
-            int x = clickLocation.x;
-            int y = clickLocation.y;
-            repaint();
-        }
-    }
-
-    //AI helped produce - Google
-    //Creates a hitbox for the target so the program knows when the player has hit the target
-    public void targetHitboxHit(MouseEvent e, Graphics g) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
-            Point clickLocation = e.getPoint();
-            int x = clickLocation.x;
-            int y = clickLocation.y;
-            if ((x > ballSpawnX - 50) && (x < ballSpawnX + 50)) {
-                if ((y > ballSpawnY -50) && (y < ballSpawnY + 50)) {
-                    score++;
-                    g.setColor(java.awt.Color.RED);
-                    g.fillOval(ballSpawnX, ballSpawnY, 50, 50);
-                    repaint();
-                }
-            }
-        }
+        targetHitbox(e);
     }
 
     @Override

@@ -11,3 +11,5 @@ public class Main {
         frame.setVisible(true);
     }
 }
+
+//TargetPanel panel = new TargetPanel();
