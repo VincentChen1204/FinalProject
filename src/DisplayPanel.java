@@ -51,14 +51,16 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
         buttonX = (getWidth() - buttonWidth) / 2;
         buttonY = (getHeight() - buttonHeight) / 2;
 
-        g.setColor(Color.RED);
-        g.drawRect(buttonX, buttonY, buttonWidth, buttonHeight);
-        g.drawString("PLAY", buttonX + 85, buttonY + 55);
+        if (!gameStarted) {
+            g.setColor(Color.RED);
+            g.drawRect(buttonX, buttonY, buttonWidth, buttonHeight);
+            g.drawString("PLAY", buttonX + 85, buttonY + 55);
 
-        //Draws the title of the program (Aim Trainer)
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.BOLD, 40));
-        g.drawString("AIM TRAINER!", 275, 170);
+            //Draws the title of the program (Aim Trainer)
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("Arial", Font.BOLD, 40));
+            g.drawString("AIM TRAINER!", 255, 170);
+        }
 
         //Keeps track of the score or number of targets hit by the user
         g.setColor(Color.BLACK);
@@ -67,7 +69,7 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
 
         //Ai provided ".fillOval()" - Google
         //Draws a red circle onto the display panel as a target
-        if (gameStarted = true) {
+        if (gameStarted) {
             g.setColor(Color.RED);
             g.fillOval(targetSpawnX, targetSpawnY, targetRadius, targetRadius);
         }
@@ -75,24 +77,26 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
 
     //Determines whether the user clicked within the area of the target or not
     public void targetHitbox(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
-            Point clickLocation = e.getPoint();
-            int x = clickLocation.x;
-            int y = clickLocation.y;
-            if (x > targetSpawnX) {
-                x -= targetSpawnX;
-            } else {
-                x = targetSpawnX - x;
-            }
-            if (y > targetSpawnY) {
-                y -= targetSpawnY;
-            } else {
-                y = targetSpawnY - y;
-            }
-            if (((x * x) + (y * y)) <= (targetRadius * targetRadius)) {
-                score++;
-                respawnTarget();
-                repaint();
+        if (gameStarted) {
+            if (e.getButton() == MouseEvent.BUTTON1) {
+                Point clickLocation = e.getPoint();
+                int x = clickLocation.x;
+                int y = clickLocation.y;
+                if (x > targetSpawnX) {
+                    x -= targetSpawnX;
+                } else {
+                    x = targetSpawnX - x;
+                }
+                if (y > targetSpawnY) {
+                    y -= targetSpawnY;
+                } else {
+                    y = targetSpawnY - y;
+                }
+                if (((x * x) + (y * y)) <= (targetRadius * targetRadius)) {
+                    score++;
+                    respawnTarget();
+                    repaint();
+                }
             }
         }
     }
