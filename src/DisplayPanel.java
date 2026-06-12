@@ -16,6 +16,11 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
     private int targetSpawnX;
     private int targetSpawnY;
     private int targetRadius = 50;
+    private int buttonWidth = 200;
+    private int buttonHeight = 100;
+    private int buttonX;
+    private int buttonY;
+
     public DisplayPanel() {
         score = 0;
 
@@ -41,12 +46,10 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
             g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
         }
 
+        //Produced by AI - ChatGPT
         //Draws the play button at the start to begin user interaction
-        int buttonWidth = 200;
-        int buttonHeight = 100;
-
-        int buttonX = (getWidth() - buttonWidth) / 2;
-        int buttonY = (getHeight() - buttonHeight) / 2;
+        buttonX = (getWidth() - buttonWidth) / 2;
+        buttonY = (getHeight() - buttonHeight) / 2;
 
         g.setColor(Color.RED);
         g.drawRect(buttonX, buttonY, buttonWidth, buttonHeight);
@@ -64,8 +67,10 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
 
         //Ai provided ".fillOval()" - Google
         //Draws a red circle onto the display panel as a target
-        g.setColor(Color.RED);
-        g.fillOval(targetSpawnX, targetSpawnY, targetRadius, targetRadius);
+        if (gameStarted = true) {
+            g.setColor(Color.RED);
+            g.fillOval(targetSpawnX, targetSpawnY, targetRadius, targetRadius);
+        }
     }
 
     //Determines whether the user clicked within the area of the target or not
@@ -103,7 +108,11 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
             Point clickLocation = e.getPoint();
             int x = clickLocation.x;
             int y = clickLocation.y;
-
+            if (x >= buttonX && x <= buttonX + buttonWidth
+            && y >= buttonY && y <= buttonY + buttonHeight) {
+                gameStarted = true;
+                repaint();
+            }
         }
     }
 
