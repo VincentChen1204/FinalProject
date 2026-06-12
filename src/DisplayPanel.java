@@ -103,13 +103,13 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
         targetSpawnY = (int) ((Math.random() * 467) + 33);
     }
 
+    //Has the user click on the play button before playing
     public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             Point clickLocation = e.getPoint();
             int x = clickLocation.x;
             int y = clickLocation.y;
-            if (x >= buttonX && x <= buttonX + buttonWidth
-            && y >= buttonY && y <= buttonY + buttonHeight) {
+            if (x >= buttonX && x <= buttonX + buttonWidth && y >= buttonY && y <= buttonY + buttonHeight) {
                 gameStarted = true;
                 repaint();
             }
