@@ -30,7 +30,7 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
             System.out.println(e.getMessage());
         }
 
-        //Randomizes the coordinates and placement of the target ball
+        //Randomizes the coordinates and placement of the target
         targetSpawnX = (int) (Math.random() * 400) + 50;
         targetSpawnY = (int) (Math.random() * 400) + 50;
         addMouseListener(this);
@@ -68,7 +68,7 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
         g.drawString("Score: " + score, 25, 25);
 
         //Ai provided ".fillOval()" - Google
-        //Draws a red circle onto the display panel as a target
+        //Draws a red circle onto the display panel as the target
         if (gameStarted) {
             g.setColor(Color.RED);
             g.fillOval(targetSpawnX, targetSpawnY, targetRadius, targetRadius);
@@ -101,7 +101,7 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
         }
     }
 
-    //After the user successfully hits the target, it will respawn again at a random point
+    //After the user successfully hits the target, it will respawn again at a randomized point
     private void respawnTarget() {
         targetSpawnX = (int) ((Math.random() * 700) + 50);
         targetSpawnY = (int) ((Math.random() * 467) + 33);
@@ -125,6 +125,7 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
 
     }
 
+    //Calls the targetHitbox method
     @Override
     public void mouseReleased(MouseEvent e) {
         targetHitbox(e);
