@@ -47,11 +47,11 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
         }
 
         //Produced by AI - ChatGPT
-        //Draws the play button at the start to begin user interaction
         buttonX = (getWidth() - buttonWidth) / 2;
         buttonY = (getHeight() - buttonHeight) / 2;
 
         if (!gameStarted) {
+            //Draws the play button at the start to begin user interaction
             g.setColor(Color.RED);
             g.drawRect(buttonX, buttonY, buttonWidth, buttonHeight);
             g.drawString("PLAY", buttonX + 85, buttonY + 55);
