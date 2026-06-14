@@ -12,6 +12,7 @@ import java.io.IOException;
 public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
     private int score;
     private boolean gameStarted;
+    private boolean gameEnded;
     private BufferedImage background;
     private int targetSpawnX;
     private int targetSpawnY;
@@ -50,7 +51,7 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
         buttonX = (getWidth() - buttonWidth) / 2;
         buttonY = (getHeight() - buttonHeight) / 2;
 
-        if (!gameStarted) {
+        if ((!gameStarted) && (!gameEnded)) {
             //Draws the play button at the start to begin user interaction
             g.setColor(Color.RED);
             g.drawRect(buttonX, buttonY, buttonWidth, buttonHeight);
@@ -72,6 +73,14 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
         if (gameStarted) {
             g.setColor(Color.RED);
             g.fillOval(targetSpawnX, targetSpawnY, targetRadius, targetRadius);
+        }
+
+        if (gameEnded) {
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("Arial", Font.BOLD, 40));
+            g.drawString("GAME FINISHED" , 240, 175);
+            g.setFont(new Font("Arial", Font.BOLD, 25));
+            g.drawString("Score: " + score, 345, 315);
         }
     }
 
@@ -146,10 +155,16 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
 
     }
 
+    //Ends the game and shows the resulting score
     @Override
     public void keyPressed(KeyEvent e) {
-
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            gameStarted = false;
+            gameEnded = true;
+            repaint();
+        }
     }
+
     @Override
     public void keyReleased(KeyEvent e) {
 
