@@ -12,6 +12,7 @@ import java.io.IOException;
 public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
     private int score;
     private boolean gameStarted;
+    private boolean gameEnded;
     private BufferedImage background;
     private int targetSpawnX;
     private int targetSpawnY;
@@ -20,6 +21,11 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
     private int buttonHeight = 100;
     private int buttonX;
     private int buttonY;
+    //Produced by AI - ChatGPT (private long -)
+    private long startTime;
+    private long endTime;
+    private double timeElapsed;
+    private double hitsPerSecond;
 
     public DisplayPanel() {
         score = 0;
@@ -50,7 +56,7 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
         buttonX = (getWidth() - buttonWidth) / 2;
         buttonY = (getHeight() - buttonHeight) / 2;
 
-        if (!gameStarted) {
+        if ((!gameStarted) && (!gameEnded)) {
             //Draws the play button at the start to begin user interaction
             g.setColor(Color.RED);
             g.drawRect(buttonX, buttonY, buttonWidth, buttonHeight);
@@ -60,18 +66,36 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
             g.setColor(Color.BLACK);
             g.setFont(new Font("Arial", Font.BOLD, 40));
             g.drawString("AIM TRAINER!", 255, 170);
-        }
 
-        //Keeps track of the score or number of targets hit by the user
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.BOLD, 15));
-        g.drawString("Score: " + score, 25, 25);
+            //Keeps track of the score or number of targets hit by the user
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("Arial", Font.BOLD, 15));
+            g.drawString("Score: " + score, 25, 25);
+        }
 
         //Ai provided ".fillOval()" - Google
         //Draws a red circle onto the display panel as the target
         if (gameStarted) {
             g.setColor(Color.RED);
             g.fillOval(targetSpawnX, targetSpawnY, targetRadius, targetRadius);
+        }
+
+        if (gameEnded) {
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("Arial", Font.BOLD, 40));
+            g.drawString("GAME FINISHED" , 240, 175);
+            g.setFont(new Font("Arial", Font.BOLD, 25));
+            g.drawString("Score: " + score, 337, 295);
+
+            timeElapsed = endTime - startTime;
+            //Converting the time in milliseconds to seconds;
+            timeElapsed = timeElapsed / 1000.0;
+            hitsPerSecond = score / timeElapsed;
+
+            //Produced by AI - ChatGPT
+            //On the end screen, tells the time passed of the program and how many targets were hit on average a second
+            g.drawString("Time Elapsed: " + String.format("%.1f", timeElapsed), 272, 360);
+            g.drawString("Hits per Second: " + String.format("%.1f", hitsPerSecond), 265, 395);
         }
     }
 
@@ -113,8 +137,10 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
             Point clickLocation = e.getPoint();
             int x = clickLocation.x;
             int y = clickLocation.y;
-            if (x >= buttonX && x <= buttonX + buttonWidth && y >= buttonY && y <= buttonY + buttonHeight) {
+            if (x >= buttonX && x <= buttonX + buttonWidth && y >= buttonY && y <= buttonY + buttonHeight && !gameEnded && !gameStarted) {
                 gameStarted = true;
+                //Produced by AI - ChatGPT
+                startTime = System.currentTimeMillis();
                 repaint();
             }
         }
@@ -146,10 +172,17 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
 
     }
 
+    //Ends the game and shows the results of the session
     @Override
     public void keyPressed(KeyEvent e) {
-
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            gameStarted = false;
+            gameEnded = true;
+            endTime = System.currentTimeMillis();
+            repaint();
+        }
     }
+
     @Override
     public void keyReleased(KeyEvent e) {
 
