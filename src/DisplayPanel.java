@@ -92,6 +92,8 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
             timeElapsed = endTime - startTime;
             //Converting the time in milliseconds to seconds;
             timeElapsed = timeElapsed / 1000.0;
+
+            //Calculates the number of targets the user hits every second
             hitsPerSecond = score / timeElapsed;
 
             //Produced by AI - ChatGPT
