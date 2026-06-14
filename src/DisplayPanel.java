@@ -66,7 +66,9 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
             g.setColor(Color.BLACK);
             g.setFont(new Font("Arial", Font.BOLD, 40));
             g.drawString("AIM TRAINER!", 255, 170);
+        }
 
+        if (!gameEnded) {
             //Keeps track of the score or number of targets hit by the user
             g.setColor(Color.BLACK);
             g.setFont(new Font("Arial", Font.BOLD, 15));
@@ -83,7 +85,7 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
         if (gameEnded) {
             g.setColor(Color.BLACK);
             g.setFont(new Font("Arial", Font.BOLD, 40));
-            g.drawString("GAME FINISHED" , 240, 175);
+            g.drawString("GAME FINISHED!" , 227, 175);
             g.setFont(new Font("Arial", Font.BOLD, 25));
             g.drawString("Score: " + score, 337, 295);
 
