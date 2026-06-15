@@ -21,7 +21,7 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
     private int buttonHeight = 100;
     private int buttonX;
     private int buttonY;
-    //Produced by AI - ChatGPT (private long -)
+    //Produced by AI - ChatGPT
     private long startTime;
     private long endTime;
     private double timeElapsed;
@@ -150,32 +150,6 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
         }
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    //Calls the targetHitbox method
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        targetHitbox(e);
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
     //Ends the game and shows the results of the session
     @Override
     public void keyPressed(KeyEvent e) {
@@ -187,8 +161,10 @@ public class DisplayPanel extends JPanel implements MouseListener, KeyListener {
         }
     }
 
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
+    @Override public void keyReleased(KeyEvent e)     {}
+    @Override public void mousePressed(MouseEvent e)  {}
+    @Override public void mouseReleased(MouseEvent e) {targetHitbox(e);}
+    @Override public void mouseEntered(MouseEvent e)  {}
+    @Override public void mouseExited(MouseEvent e)   {}
+    @Override public void keyTyped(KeyEvent e)        {}
 }
